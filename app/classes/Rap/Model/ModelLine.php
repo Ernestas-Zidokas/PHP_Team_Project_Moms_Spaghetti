@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Rap\Model;
 
 Class ModelLine {
 
@@ -23,7 +23,7 @@ Class ModelLine {
 
     public function insert(\App\Rap\Line $line) {
         if (!$this->exists($line)) {
-            $this->db->setRow($this->table_name, $line->getEmail(), $line->getData());
+            $this->db->setRow($this->table_name, microtime(), $line->getData());
             $this->db->save();
 
             return true;
@@ -65,7 +65,7 @@ Class ModelLine {
     }
 
     public function getCount() {
-        $get_count = $this->db->getCount($this->table_name);
+        $get_count = $this->db->countRows($this->table_name);
         if ($get_count) {
             return $get_count;
         }

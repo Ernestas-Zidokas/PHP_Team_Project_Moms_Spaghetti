@@ -7,7 +7,10 @@ class Session extends \Core\User\Abstracts\Session {
     public function __construct(\Core\User\Repository $repo) {
         $this->repo = $repo;
         $this->is_logged_in = false;
-        session_start();
+        if (session_id() == '' || !isset($_SESSION)) {
+            // session isn't started
+            session_start();
+        }
         $this->loginViaCookie();
     }
 

@@ -1,11 +1,8 @@
 <?php
 
-namespace App\Rap\Abstacts;
+namespace App\Rap\Abstracts;
 
-abstract class Song extends App\Model\ModelLine {
-
-    const RAP_SUCCESS = 1;
-    const RAP_FAIL = -1;
+abstract class Song extends \App\Rap\Model\ModelLine {
 
     abstract function canRap(\Core\User\User $user);
 }

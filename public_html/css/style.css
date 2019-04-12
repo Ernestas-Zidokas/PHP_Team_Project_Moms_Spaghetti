@@ -73,3 +73,12 @@ form select {
     margin-left: auto;
     margin-right: auto;
 }
+
+.author {
+    display: none;
+}
+
+.line:hover .author {
+    display: inline-block;
+    margin-left: 5px;
+}

@@ -163,6 +163,9 @@ if (!empty($_POST)) {
         $success_msg = strtr('User "@username" sėkmingai sukurtas!', [
             '@username' => $safe_input['username']
         ]);
+
+        header('Location: login.php');
+        exit();
     }
 }
 ?>
@@ -172,6 +175,7 @@ if (!empty($_POST)) {
         <link rel="stylesheet" href="/css/style.css">
     </head>
     <body>
+        <h1>BECOME THE RAP GOD</h1>
         <div class="container">
             <div class="forma">
                 <?php require '../core/views/form.php'; ?>

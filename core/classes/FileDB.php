@@ -154,6 +154,10 @@ Class FileDB {
     public function rowExists($table, $row_id){
         return isset($this->data[$table][$row_id]) ? true : false;
     }
+    
+    public function countRows($table){
+        return count($this->data[$table]);
+    }
 }
 
 ?>
