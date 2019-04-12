@@ -29,7 +29,7 @@ class Cookie {
         return [];
     }
 
-    public function save(array $data, int $expires_in = 3600){
+    public function save(array $data, int $expires_in = 3600) {
         setcookie($this->name, json_encode($data), time() + $expires_in);
     }
 
