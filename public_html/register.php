@@ -79,16 +79,6 @@ $form = [
                 'validate_field_select'
             ],
         ],
-        'account_type' => [
-            'label' => 'Account type',
-            'type' => 'select',
-            'placeholder' => '',
-            'options' => \Core\User\User::getAccountTypeOptions(),
-            'validate' => [
-                'validate_not_empty',
-                'validate_field_select'
-            ]
-        ],
         'photo' => [
             'label' => 'Photo',
             'placeholder' => 'file',
@@ -132,7 +122,7 @@ function form_success($safe_input, $form) {
         'age' => $safe_input['age'],
         'gender' => $safe_input['gender'],
         'orientation' => $safe_input['orientation'],
-        'account_type' => $safe_input['account_type'],
+        'account_type' => \Core\User\User::ACCOUNT_TYPE_USER,
         'photo' => $safe_input['photo'],
         'is_active' => true
     ]);
@@ -182,13 +172,6 @@ if (!empty($_POST)) {
         <link rel="stylesheet" href="/css/style.css">
     </head>
     <body>
-        <nav>
-            <a href="index.php">Index</a>
-            <a href="logout.php">Register</a>
-            <a href="login.php">Register</a>
-            <a href="slot3x3.php">PLAY FOR NOOBS</a>
-            <a href="slot5x3.php">PLAY FOR REAL MEN</a>
-        </nav>
         <div class="container">
             <div class="forma">
                 <?php require '../core/views/form.php'; ?>
