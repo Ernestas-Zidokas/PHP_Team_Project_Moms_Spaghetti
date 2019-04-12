@@ -82,9 +82,11 @@ $repo = new \Core\User\Repository($db, TABLE_USERS);
 $session = new Core\User\Session($repo);
 $song = new \App\Rap\Song($db, TABLE_LINES);
 
-$form['buttons']['submit']['text'] = strtr($form['buttons']['submit']['text'], [
-    '@name' => $session->getUser()->getFullName()
-        ]);
+if ($session->isLoggedIn()) {
+    $form['buttons']['submit']['text'] = strtr($form['buttons']['submit']['text'], [
+        '@name' => $session->getUser()->getFullName()
+    ]);
+}
 ?>
 <html>
     <head>
