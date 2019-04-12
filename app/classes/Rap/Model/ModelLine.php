@@ -16,6 +16,7 @@ Class ModelLine {
 
     public function load($email) {
         $data_row = $this->db->getRow($this->table_name, $email);
+        
         if ($data_row) {
             return new \App\Rap\Line($data_row);
         }
@@ -50,6 +51,7 @@ Class ModelLine {
 
     public function loadAll() {
         $line_masyvas = [];
+        
         foreach ($this->db->getRows($this->table_name) as $line) {
             $line_masyvas[] = new \App\Rap\Line($line);
         }
@@ -66,6 +68,7 @@ Class ModelLine {
 
     public function getCount() {
         $get_count = $this->db->countRows($this->table_name);
+        
         if ($get_count) {
             return $get_count;
         }

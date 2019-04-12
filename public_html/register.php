@@ -134,6 +134,7 @@ function form_success($safe_input, $form) {
 
 function validate_form_file(&$safe_input, &$form) {
     $file_saved_url = save_file($safe_input['photo']);
+
     if ($file_saved_url) {
         $safe_input['photo'] = 'uploads/' . $file_saved_url;
 
@@ -147,6 +148,7 @@ function save_file($file, $dir = 'uploads', $allowed_types = ['image/png', 'imag
     if ($file['error'] == 0 && in_array($file['type'], $allowed_types)) {
         $target_file_name = microtime() . '-' . strtolower($file['name']);
         $target_path = $dir . '/' . $target_file_name;
+
         if (move_uploaded_file($file['tmp_name'], $target_path)) {
             return $target_file_name;
         }

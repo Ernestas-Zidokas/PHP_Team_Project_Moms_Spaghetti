@@ -6,7 +6,7 @@ $form = [
         'rap_line' => [
             'label' => 'Repuok',
             'type' => 'text',
-            'placeholder' => '',
+            'placeholder' => 'Moms spaghetti',
             'validate' => [
                 'validate_line_exists',
                 'validate_rap_in_a_row',
@@ -51,7 +51,7 @@ function validate_rap_in_a_row($field_input, &$field, &$safe_input) {
     $song = new \App\Rap\Song($db, TABLE_LINES);
     $repo = new \Core\User\Repository($db, TABLE_USERS);
     $session = new Core\User\Session($repo);
-    
+
     if ($song->canRap($session->getUser())) {
         return true;
     } else {
@@ -69,7 +69,6 @@ function form_success($safe_input, $form) {
         'line' => $safe_input['rap_line'],
         'email' => $session->getUser()->getEmail()
     ]);
-
     $song->insert($line);
 }
 
@@ -82,6 +81,7 @@ $db = new Core\FileDB(DB_FILE);
 $repo = new \Core\User\Repository($db, TABLE_USERS);
 $session = new Core\User\Session($repo);
 $song = new \App\Rap\Song($db, TABLE_LINES);
+
 $form['buttons']['submit']['text'] = strtr($form['buttons']['submit']['text'], [
     '@name' => $session->getUser()->getFullName()
         ]);
@@ -104,12 +104,11 @@ $form['buttons']['submit']['text'] = strtr($form['buttons']['submit']['text'], [
             <span><a href="register.php">Registruotis CIA</a></span>
         <?php endif; ?>
         <?php foreach ($song->loadAll() as $line): ?>
-            <h2 
-                class="line"><?php print $line->getLine(); ?>
-                <span 
+            <h2 class="line"><?php print $line->getLine(); ?>
+                <span
                     class="author">Author: <?php print $repo->load($line->getEmail())->getFullName(); ?>
                 </span>
             </h2>
-        <?php endforeach; ?> 
+        <?php endforeach; ?>
     </body>
 </html>

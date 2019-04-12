@@ -1,52 +1,3 @@
-.relative {
-    text-align: center;
-    background-color: black;
-}
-
-.casino {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.slotmachine {
-    display:flex;
-    flex-direction: column;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    justify-content: center;
-    align-items: center;
-}
-
-.row {
-    display:flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.element {
-    width: 150px;
-    height: 150px;
-    border: 5px solid red;
-    background-repeat: no-repeat;
-    background-size: cover; 
-}
-
-.element-1 {
-    background-image: url("../images/bananas.jpg")
-}
-
-.element-2 {
-    background-image: url("../images/noballs.jpg")
-}
-
-.element-3 {
-    background-image: url("../images/tits.gif")
-}
-
 .container {
     display: flex;
     justify-content: center; 
@@ -57,7 +8,6 @@
     text-align: center;
     padding: 10px;
 }
-
 
 form input {
     display: block;
