@@ -66,13 +66,6 @@ if (!empty($_POST)) {
         <link rel="stylesheet" href="/css/style.css">
     </head>
     <body>
-        <nav>
-            <a href="index.php">Index</a>
-            <a href="register.php">Register</a>
-            <a href="logout.php">Logout</a>
-            <a href="slot3x3.php">PLAY FOR NOOBS</a>
-            <a href="slot5x3.php">PLAY FOR REAL MEN</a>
-        </nav>
         <div class="container">
             <div class="forma">
                 <?php require '../core/views/form.php'; ?>
