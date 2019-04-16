@@ -2,6 +2,8 @@
 
 namespace Core\Database;
 
+use PDO;
+
 class Connection extends \Core\Database\Abstracts\Connection {
 
     protected $creds;
@@ -26,9 +28,11 @@ class Connection extends \Core\Database\Abstracts\Connection {
                 $this->pdo = new \PDO
                         ("mysql:host=$this->host", $this->user, $this->pass);
                 if (DEBUG) {
-                    $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXEPTION
+                    $this->pdo->setAttribute(
+                            PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION
                     );
-                    $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, true
+                    $this->pdo->setAttribute(
+                            PDO::ATTR_EMULATE_PREPARES, true
                     );
                 }
             } catch (\PDOException $e) {

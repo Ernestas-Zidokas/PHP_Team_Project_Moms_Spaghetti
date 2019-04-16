@@ -96,10 +96,12 @@ if ($session->isLoggedIn()) {
 }
 
 $connection = new \Core\Database\Connection([
-    'host' => 'localhosts',
+    'host' => 'localhost',
     'user' => 'root',
     'password' => 'bananas123'
         ]);
+
+$connection->connect();
 ?>
 <html>
     <head>
