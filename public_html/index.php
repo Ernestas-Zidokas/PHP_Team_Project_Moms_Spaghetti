@@ -99,7 +99,7 @@ $connection = new \Core\Database\Connection([
     'host' => 'localhosts',
     'user' => 'root',
     'password' => 'bananas123'
-        ])
+        ]);
 ?>
 <html>
     <head>
