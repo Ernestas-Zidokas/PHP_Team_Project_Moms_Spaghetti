@@ -101,7 +101,9 @@ $connection = new \Core\Database\Connection([
     'password' => 'bananas123'
         ]);
 
-$connection->connect();
+$pdo = $connection->getPDO();
+$pdo->exec('INSERT `my_db`.`users`(`email`, `password`, `full_name`, `age`, `gender`, `photo`)'
+        . 'VALUES("ernestas.zidokas@gmail.com", "password", "Ernestas Zidokas", 26, "m", "uploads/ernestas.jpg")')
 ?>
 <html>
     <head>
