@@ -102,8 +102,27 @@ $connection = new \Core\Database\Connection([
         ]);
 
 $pdo = $connection->getPDO();
-$pdo->exec('INSERT INTO `my_db`.`users`(`email`, `password`, `full_name`, `age`, `gender`, `photo`)'
-        . 'VALUES("belenkas@gmail.com", "123456", "Ernestas Zidokas123", 30, "m", "uploads/ernestas123.jpg")');
+$query = $pdo->prepare('INSERT INTO `my_db`.`users` '
+        . '(`email`, `password`, `full_name`, `age`, `gender`, `photo`)'
+        . 'VALUES(:email, :pass, :full_name, :age, :gender, :photo)');
+
+$credentials = [
+    'email' => 'belenkas1@gmail.com',
+    'password' => 'belenkas123',
+    'full_name' => 'Belenkas Belenkavicius',
+    'age' => 68,
+    'gender' => 'm',
+    'photo' => 'uploads/belenkas.jpg'
+];
+
+$query->bindParam(':email', $credentials['email'], PDO::PARAM_STR);
+$query->bindParam(':pass', $credentials['password'], PDO::PARAM_STR);
+$query->bindParam(':full_name', $credentials['full_name'], PDO::PARAM_STR);
+$query->bindParam(':age', $credentials['age'], PDO::PARAM_INT);
+$query->bindParam(':gender', $credentials['gender'], PDO::PARAM_STR);
+$query->bindParam(':photo', $credentials['photo'], PDO::PARAM_STR);
+
+$query->execute();
 ?>
 <html>
     <head>
