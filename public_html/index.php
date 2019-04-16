@@ -102,8 +102,8 @@ $connection = new \Core\Database\Connection([
         ]);
 
 $pdo = $connection->getPDO();
-$pdo->exec('INSERT `my_db`.`users`(`email`, `password`, `full_name`, `age`, `gender`, `photo`)'
-        . 'VALUES("ernestas.zidokas@gmail.com", "password", "Ernestas Zidokas", 26, "m", "uploads/ernestas.jpg")')
+$pdo->exec('INSERT INTO `my_db`.`users`(`email`, `password`, `full_name`, `age`, `gender`, `photo`)'
+        . 'VALUES("belenkas@gmail.com", "123456", "Ernestas Zidokas123", 30, "m", "uploads/ernestas123.jpg")');
 ?>
 <html>
     <head>
