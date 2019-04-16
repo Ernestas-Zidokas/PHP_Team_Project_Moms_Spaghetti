@@ -2,6 +2,7 @@
 require_once '../bootloader.php';
 
 $form = [
+    'pre_validate' => [],
     'fields' => [
         'username' => [
             'label' => 'Username',
@@ -177,6 +178,7 @@ if (!empty($_POST)) {
         <link rel="stylesheet" href="/css/style.css">
     </head>
     <body>
+        <?php require '../objects/navigation.php'; ?>
         <h1>BECOME THE RAP GOD</h1>
         <div class="container">
             <div class="forma">

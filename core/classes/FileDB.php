@@ -150,14 +150,19 @@ Class FileDB {
             return false;
         }
     }
-    
-    public function rowExists($table, $row_id){
+
+    public function rowExists($table, $row_id) {
         return isset($this->data[$table][$row_id]) ? true : false;
     }
-    
-    public function countRows($table){
-        return count($this->data[$table]);
+
+    public function countRows($table) {
+        if ($this->tableExists($table)) {
+            return count($this->data[$table]);
+        } else {
+            return 0;
+        }
     }
+
 }
 
 ?>

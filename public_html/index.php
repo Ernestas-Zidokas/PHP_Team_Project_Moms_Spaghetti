@@ -2,6 +2,7 @@
 require_once '../bootloader.php';
 
 $form = [
+    'pre_validate' => [],
     'fields' => [
         'rap_line' => [
             'label' => 'Repuok',
@@ -52,11 +53,17 @@ function validate_rap_in_a_row($field_input, &$field, &$safe_input) {
     $repo = new \Core\User\Repository($db, TABLE_USERS);
     $session = new Core\User\Session($repo);
 
-    if ($song->canRap($session->getUser())) {
-        return true;
-    } else {
-        $field['error_msg'] = 'Negali repuoti kol po taves kitas neparepavo!';
+    if ($song->getCount($song->loadAll()) > 0) {
+        if ($song->canRap($session->getUser())) {
+            return true;
+        } else {
+            $field['error_msg'] = 'Negali repuoti kol po taves kitas neparepavo!';
+
+            return false;
+        }
     }
+
+    return true;
 }
 
 function form_success($safe_input, $form) {
@@ -87,6 +94,12 @@ if ($session->isLoggedIn()) {
         '@name' => $session->getUser()->getFullName()
     ]);
 }
+
+$connection = new \Core\Database\Connection([
+    'host' => 'localhosts',
+    'user' => 'root',
+    'password' => 'bananas123'
+        ])
 ?>
 <html>
     <head>
@@ -94,6 +107,7 @@ if ($session->isLoggedIn()) {
         <link rel="stylesheet" href="/css/style.css">
     </head>
     <body>
+        <?php require '../objects/navigation.php'; ?>
         <h1>P-OOP MC</h1>
         <?php if ($session->isLoggedIn()): ?>
             <h1>Sveikinu! <?php print $session->getUser()->getUsername(); ?> esi prisijunges</h1>

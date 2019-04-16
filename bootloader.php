@@ -8,6 +8,5 @@ define ('TABLE_LINES', 'lines');
 
 require ROOT_DIR . '/vendor/autoload.php';
 require ROOT_DIR . '/core/functions/form.php';
-require ROOT_DIR . '/objects/navigation.php';
 
 

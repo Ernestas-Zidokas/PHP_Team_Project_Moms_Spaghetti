@@ -95,6 +95,7 @@ if (!empty($_POST)) {
         <link rel="stylesheet" href="/css/style.css">
     </head>
     <body>
+        <?php require '../objects/navigation.php'; ?>
         <h1>GET ON STAGE!</h1>
         <div class="container">
             <div class="forma">
