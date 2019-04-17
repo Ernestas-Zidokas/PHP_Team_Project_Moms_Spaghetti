@@ -45,6 +45,10 @@ class SQLBuilder extends Core\Database\Abstracts\SQLBuilder {
     }
 
     public static function values($value_array): string {
+        foreach($value_array as &$value){
+            $value = self::value($value);
+        }
+        
         return implode(', ', $value_array);
     }
 
