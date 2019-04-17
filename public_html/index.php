@@ -102,29 +102,6 @@ $connection = new \Core\Database\Connection([
         ]);
 
 $pdo = $connection->getPDO();
-//$query = $pdo->prepare('INSERT INTO `my_db`.`users` '
-//        . '(`email`, `password`, `full_name`, `age`, `gender`, `photo`)'
-//        . 'VALUES(:email, :pass, :full_name, :age, :gender, :photo)');
-//
-//$credentials = [
-//    'email' => 'belenkas15555@gmail.com',
-//    'pass' => 'belenkas123',
-//    'full_name' => 'Belenkas Belenkavicius',
-//    'age' => 68,
-//    'gender' => 'm',
-//    'photo' => 'uploads/belenkas.jpg'
-//];
-//
-//foreach ($credentials as $key => &$credential) {
-//    if ($key == 'age') {
-//        $query->bindParam(':' . $key, $credential, PDO::PARAM_INT);
-//    } else {
-//        $query->bindParam(':' . $key, $credential, PDO::PARAM_STR);
-//    }
-//}
-//$query->execute();
-//unset($credential);
-
 $query = $pdo->query('SELECT * FROM `my_db`.`users`');
 $users = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
