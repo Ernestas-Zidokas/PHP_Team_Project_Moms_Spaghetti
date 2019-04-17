@@ -14,7 +14,7 @@ class SQLBuilder extends Core\Database\Abstracts\SQLBuilder {
      * @return string :column_1
      */
     public static function bind($column): string {
-        return ":" . str_replace(" ", "_", $column);
+        return ':' . str_replace(' ', '_', $column);
     }
 
     /**
@@ -28,7 +28,7 @@ class SQLBuilder extends Core\Database\Abstracts\SQLBuilder {
             self::bind($column);
         }
 
-        return implode(", ", $column_array);
+        return implode(', ', $column_array);
     }
 
     /**
@@ -58,7 +58,7 @@ class SQLBuilder extends Core\Database\Abstracts\SQLBuilder {
      * @return string `column 1`, `column 2`, `column 2`
      */
     public static function columns($column_array): string {
-        return implode(", ", $column_array);
+        return implode(', ', $column_array);
     }
 
     /**
@@ -73,7 +73,7 @@ class SQLBuilder extends Core\Database\Abstracts\SQLBuilder {
         foreach ($column_array as &$column) {
             self::bind($column);
         }
-        
+
         return implode($delimiter, $column_array);
     }
 
@@ -95,7 +95,7 @@ class SQLBuilder extends Core\Database\Abstracts\SQLBuilder {
      * @return string 'value 1', 'value 2'
      */
     public static function values($value_array): string {
-        return implode(", ", $value_array);
+        return implode(', ', $value_array);
     }
 
 }
