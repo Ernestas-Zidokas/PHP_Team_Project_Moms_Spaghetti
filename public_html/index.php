@@ -1,4 +1,7 @@
 <?php
+
+use Core\Database\SQLBuilder;
+
 require_once '../bootloader.php';
 
 $form = [
@@ -102,26 +105,42 @@ $connection = new \Core\Database\Connection([
         ]);
 
 $pdo = $connection->getPDO();
-$query = $pdo->query('SELECT * FROM `my_db`.`users`');
+//$query = $pdo->query('SELECT * FROM `my_db`.`users`');
 
-$users = [];
-$last_gender = '';
+$value_array = ['ernestas.zidokas@gmail.com', 'password', 'Ernestas Zidokas', 26, 'm', 'uploads/belenkas.jpg'];
+$column_array = ['email', 'password', 'full_name', 'age', 'gender', 'photo'];
 
-while ($row = $query->fetch(PDO::FETCH_LAZY)) {
-    $gender = $row['gender']; // Requestas i duombaze
-    if ($gender == $last_gender && $gender == 'f') {
-        break;
-    } else {
-        $last_gender = $gender;
-        $users[] = [
-            'full_name' => $row['full_name'],
-            'age' => $row['age'],
-            'email' => $row['email'],
-            'gender' => $row['gender'],
-            'photo' => $row['photo']
-        ];
-    }
-}
+$query = $pdo->prepare('INSERT INTO `my_db`.`users` '
+        . '(`email`, `password`, `full_name`, `age`, `gender`, `photo`)'
+        . 'VALUES(:email, :pass, :full_name, :age, :gender, :photo)');
+
+$sql = strtr("INSERT INTO @db.@table (@columns) VALUES (@values)", [
+    '@db' => \Core\Database\SQLBuilder::column('my_db'),
+    '@table' => \Core\Database\SQLBuilder::column('users'),
+    '@columns' => \Core\Database\SQLBuilder::columns($column_array),
+    '@values' => \Core\Database\SQLBuilder::columns($value_array),
+        ]);
+
+$query->execute();
+
+//$users = [];
+//$last_gender = '';
+//
+//while ($row = $query->fetch(PDO::FETCH_LAZY)) {
+//    $gender = $row['gender']; // Requestas i duombaze
+//    if ($gender == $last_gender && $gender == 'f') {
+//        break;
+//    } else {
+//        $last_gender = $gender;
+//        $users[] = [
+//            'full_name' => $row['full_name'],
+//            'age' => $row['age'],
+//            'email' => $row['email'],
+//            'gender' => $row['gender'],
+//            'photo' => $row['photo']
+//        ];
+//    }
+//}
 ?>
 <html>
     <head>
@@ -131,24 +150,24 @@ while ($row = $query->fetch(PDO::FETCH_LAZY)) {
     <body>
         <?php require '../objects/navigation.php'; ?>
         <h1>P-OOP MC</h1>
-        <?php if ($session->isLoggedIn()): ?>
+<?php if ($session->isLoggedIn()): ?>
             <h1>Sveikinu! <?php print $session->getUser()->getUsername(); ?> esi prisijunges</h1>
             <div class="container">
-                <?php require '../core/views/form.php'; ?>
+    <?php require '../core/views/form.php'; ?>
                 <p><a href="logout.php">Logout CIA</a></p>
             </div>
-        <?php else: ?>
+<?php else: ?>
             <span><a href="login.php">Prisijunkite CIA</a></span>
             <span><a href="register.php">Registruotis CIA</a></span>
         <?php endif; ?>
-        <?php foreach ($song->loadAll() as $line): ?>
+<?php foreach ($song->loadAll() as $line): ?>
             <h2 class="line"><?php print $line->getLine(); ?>
                 <span
                     class="author">Author: <?php print $repo->load($line->getEmail())->getFullName(); ?>
                 </span>
             </h2>
         <?php endforeach; ?>
-        <?php foreach ($users as $user): ?>
+<?php foreach ($users as $user): ?>
             <ul>
                 <li><?php print $user['email'] ?></li>
                 <li><?php print $user['full_name'] ?></li>
@@ -156,6 +175,6 @@ while ($row = $query->fetch(PDO::FETCH_LAZY)) {
                 <li><?php print $user['gender'] ?></li>
                 <li><?php print $user['photo'] ?></li>
             </ul>
-        <?php endforeach; ?>
+<?php endforeach; ?>
     </body>
 </html>

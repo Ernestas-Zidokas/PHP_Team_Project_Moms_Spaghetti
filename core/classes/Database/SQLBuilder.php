@@ -2,7 +2,7 @@
 
 namespace Core\Database;
 
-class SQLBuilder extends Core\Database\Abstracts\SQLBuilder {
+class SQLBuilder extends \Core\Database\Abstracts\SQLBuilder {
 
     public static function bind($column): string {
         return ':' . str_replace(' ', '_', $column);
