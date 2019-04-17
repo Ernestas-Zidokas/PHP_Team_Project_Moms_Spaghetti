@@ -104,23 +104,23 @@ $connection = new \Core\Database\Connection([
 $pdo = $connection->getPDO();
 $query = $pdo->query('SELECT * FROM `my_db`.`users`');
 
-$counter = 0;
-$gender_array = [];
-while ($user = $query->fetch(PDO::FETCH_LAZY)) {
-    if ($user['gender'] == 'f') {
-        $gender_array[] = $user['gender'];
+$users = [];
+$last_gender = '';
+
+while ($row = $query->fetch(PDO::FETCH_LAZY)) {
+    $gender = $row['gender']; // Requestas i duombaze
+    if ($gender == $last_gender && $gender == 'f') {
+        break;
+    } else {
+        $last_gender = $gender;
+        $users[] = [
+            'full_name' => $row['full_name'],
+            'age' => $row['age'],
+            'email' => $row['email'],
+            'gender' => $row['gender'],
+            'photo' => $row['photo']
+        ];
     }
-
-    $gender = $user['gender'];
-    print $user['email'];
-
-    if ($counter !== 0) {
-        if ($gender == $gender_array[$counter - 1]) {
-            break;
-        }
-    }
-
-    $counter++;
 }
 ?>
 <html>
@@ -148,6 +148,14 @@ while ($user = $query->fetch(PDO::FETCH_LAZY)) {
                 </span>
             </h2>
         <?php endforeach; ?>
-
+        <?php foreach ($users as $user): ?>
+            <ul>
+                <li><?php print $user['email'] ?></li>
+                <li><?php print $user['full_name'] ?></li>
+                <li><?php print $user['age'] ?></li>
+                <li><?php print $user['gender'] ?></li>
+                <li><?php print $user['photo'] ?></li>
+            </ul>
+        <?php endforeach; ?>
     </body>
 </html>
