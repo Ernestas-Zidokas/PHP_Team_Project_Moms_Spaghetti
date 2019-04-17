@@ -25,7 +25,7 @@ class SQLBuilder extends Core\Database\Abstracts\SQLBuilder {
      */
     public static function binds($column_array): string {
         foreach ($column_array as &$column) {
-            self::bind($column);
+            $column = self::bind($column);
         }
 
         return implode(', ', $column_array);
@@ -58,6 +58,10 @@ class SQLBuilder extends Core\Database\Abstracts\SQLBuilder {
      * @return string `column 1`, `column 2`, `column 2`
      */
     public static function columns($column_array): string {
+        foreach($column_array as &$column){
+            $column = self::column($column);
+        }
+        
         return implode(', ', $column_array);
     }
 
@@ -71,7 +75,7 @@ class SQLBuilder extends Core\Database\Abstracts\SQLBuilder {
      */
     public static function columnsEqualBinds($column_array, $delimiter = ', '): string {
         foreach ($column_array as &$column) {
-            self::bind($column);
+            $column = self::bind($column);
         }
 
         return implode($delimiter, $column_array);
