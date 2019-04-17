@@ -75,7 +75,7 @@ class SQLBuilder extends Core\Database\Abstracts\SQLBuilder {
      */
     public static function columnsEqualBinds($column_array, $delimiter = ', '): string {
         foreach ($column_array as &$column) {
-            $column = self::bind($column);
+            $column = self::columnEqualBind($column) ;
         }
 
         return implode($delimiter, $column_array);
