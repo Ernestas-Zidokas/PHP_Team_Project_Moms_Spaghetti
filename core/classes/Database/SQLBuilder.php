@@ -38,7 +38,7 @@ class SQLBuilder extends Core\Database\Abstracts\SQLBuilder {
      * @return string `column 1`
      */
     public static function column($column): string {
-        return `$column`;
+        return "`$column`";
     }
 
     /**
@@ -84,7 +84,7 @@ class SQLBuilder extends Core\Database\Abstracts\SQLBuilder {
      * @return string 'some value'
      */
     public static function value($value): string {
-        return `$value`;
+        return "'$value'";
     }
 
     /**
