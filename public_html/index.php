@@ -103,7 +103,25 @@ $connection = new \Core\Database\Connection([
 
 $pdo = $connection->getPDO();
 $query = $pdo->query('SELECT * FROM `my_db`.`users`');
-$users = $query->fetchAll(PDO::FETCH_ASSOC);
+
+$counter = 0;
+$gender_array = [];
+while ($user = $query->fetch(PDO::FETCH_LAZY)) {
+    if ($user['gender'] == 'f') {
+        $gender_array[] = $user['gender'];
+    }
+
+    $gender = $user['gender'];
+    print $user['email'];
+
+    if ($counter !== 0) {
+        if ($gender == $gender_array[$counter - 1]) {
+            break;
+        }
+    }
+
+    $counter++;
+}
 ?>
 <html>
     <head>
@@ -130,10 +148,6 @@ $users = $query->fetchAll(PDO::FETCH_ASSOC);
                 </span>
             </h2>
         <?php endforeach; ?>
-        <?php foreach ($users as $column): ?>
-            <?php foreach ($column as $field): ?>
-                <div><?php print $field; ?></div>
-            <?php endforeach; ?>
-        <?php endforeach; ?>
+
     </body>
 </html>
