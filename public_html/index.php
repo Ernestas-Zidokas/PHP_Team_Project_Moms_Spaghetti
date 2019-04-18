@@ -106,18 +106,16 @@ $connection = new \Core\Database\Connection([
 
 $pdo = $connection->getPDO();
 
-$sql = strtr("UPDATE @db.@table SET @age = @value1, @gender = @value2", [
+$value_array = ['email' => 'taskytojas.zidokas@gmail.com', 'password' => 'passwordtaskom', 'full_name' => 'Ernestas Zidokas', 'age' => 26, 'gender' => 'm', 'photo' => 'uploads/belenkas.jpg'];
+
+$sql = strtr("INSERT INTO @db.@table (@columns) VALUES (@values)", [
     '@db' => \Core\Database\SQLBuilder::schema('my_db'),
     '@table' => \Core\Database\SQLBuilder::table('users'),
-    '@age' => \Core\Database\SQLBuilder::column('age'),
-    '@gender' => \Core\Database\SQLBuilder::column('gender'),
-    '@value1' => \Core\Database\SQLBuilder::value(rand(0, 100)),
-    '@value2' => \Core\Database\SQLBuilder::value('m')
-        ]
-);
+    '@columns' => \Core\Database\SQLBuilder::columns(array_keys($value_array)),
+    '@values' => \Core\Database\SQLBuilder::values(array_values($value_array)),
+        ]);
 
-$query = $pdo->exec($sql);
-
+$pdo->exec($sql);
 ?>
 <html>
     <head>
