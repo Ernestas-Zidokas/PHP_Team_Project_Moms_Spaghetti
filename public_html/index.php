@@ -106,7 +106,15 @@ $connection = new \Core\Database\Connection([
 
 $pdo = $connection->getPDO();
 
-$value_array = ['email' => 'taskytojas.zidokas@gmail.com', 'password' => 'passwordtaskom', 'full_name' => 'Ernestas Zidokas', 'age' => 26, 'gender' => 'm', 'photo' => 'uploads/belenkas.jpg'];
+$value_array = [
+    'email' => 'taskytojas.zidokas@gmail.com', 
+    'password' => 'passwordtaskom', 
+    'full_name' => 'Ernestas Zidokas', 
+    'age' => 26, 
+    'gender' => 
+    'm', 
+    'photo' => 
+    'uploads/belenkas.jpg'];
 
 $sql = strtr("INSERT INTO @db.@table (@columns) VALUES (@values)", [
     '@db' => \Core\Database\SQLBuilder::schema('my_db'),
@@ -116,6 +124,30 @@ $sql = strtr("INSERT INTO @db.@table (@columns) VALUES (@values)", [
         ]);
 
 $pdo->exec($sql);
+
+//$query = $pdo->prepare('INSERT INTO `my_db`.`users` '
+//        . '(`email`, `password`, `full_name`, `age`, `gender`, `photo`)'
+//        . 'VALUES(:email, :pass, :full_name, :age, :gender, :photo)');
+//        
+//$query->execute();
+//$users = [];
+//$last_gender = '';
+//
+//while ($row = $query->fetch(PDO::FETCH_LAZY)) {
+//    $gender = $row['gender']; // Requestas i duombaze
+//    if ($gender == $last_gender && $gender == 'f') {
+//        break;
+//    } else {
+//        $last_gender = $gender;
+//        $users[] = [
+//            'full_name' => $row['full_name'],
+//            'age' => $row['age'],
+//            'email' => $row['email'],
+//            'gender' => $row['gender'],
+//            'photo' => $row['photo']
+//        ];
+//    }
+//}
 ?>
 <html>
     <head>
