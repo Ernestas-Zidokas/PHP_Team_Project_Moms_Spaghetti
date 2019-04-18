@@ -105,24 +105,37 @@ $connection = new \Core\Database\Connection([
         ]);
 
 $pdo = $connection->getPDO();
-//$query = $pdo->query('SELECT * FROM `my_db`.`users`');
 
-$value_array = ['ernestas.zidokas@gmail.com', 'password', 'Ernestas Zidokas', 26, 'm', 'uploads/belenkas.jpg'];
-$column_array = ['email', 'password', 'full_name', 'age', 'gender', 'photo'];
+$sql = strtr("SELECT * FROM @db.@table WHERE (@age = @value1) AND (@gender = @value2)", [
+    '@db' => \Core\Database\SQLBuilder::schema('my_db'),
+    '@table' => \Core\Database\SQLBuilder::table('users'),
+    '@age' => \Core\Database\SQLBuilder::column('age'),
+    '@gender' => \Core\Database\SQLBuilder::column('gender'),
+    '@value1' => \Core\Database\SQLBuilder::value(25),
+    '@value2' => \Core\Database\SQLBuilder::value('f')
+        ]
+);
 
-$query = $pdo->prepare('INSERT INTO `my_db`.`users` '
-        . '(`email`, `password`, `full_name`, `age`, `gender`, `photo`)'
-        . 'VALUES(:email, :pass, :full_name, :age, :gender, :photo)');
+$query = $pdo->query($sql);
+$data = $query->fetchAll(PDO::FETCH_ASSOC);
+var_dump($data);
 
-$sql = strtr("INSERT INTO @db.@table (@columns) VALUES (@values)", [
-    '@db' => \Core\Database\SQLBuilder::column('my_db'),
-    '@table' => \Core\Database\SQLBuilder::column('users'),
-    '@columns' => \Core\Database\SQLBuilder::columns($column_array),
-    '@values' => \Core\Database\SQLBuilder::columns($value_array),
-        ]);
-
-$query->execute();
-
+//$value_array = ['ernestas.zidokas@gmail.com', 'password', 'Ernestas Zidokas', 26, 'm', 'uploads/belenkas.jpg'];
+//$column_array = ['email', 'password', 'full_name', 'age', 'gender', 'photo'];
+//
+//$query = $pdo->prepare('INSERT INTO `my_db`.`users` '
+//        . '(`email`, `password`, `full_name`, `age`, `gender`, `photo`)'
+//        . 'VALUES(:email, :pass, :full_name, :age, :gender, :photo)');
+//
+//$sql = strtr("INSERT INTO @db.@table (@columns) VALUES (@values)", [
+//    '@db' => \Core\Database\SQLBuilder::column('my_db'),
+//    '@table' => \Core\Database\SQLBuilder::column('users'),
+//    '@columns' => \Core\Database\SQLBuilder::columns($column_array),
+//    '@values' => \Core\Database\SQLBuilder::values($value_array),
+//        ]);
+//
+//$pdo->exec($sql);
+//$query->execute();
 //$users = [];
 //$last_gender = '';
 //
@@ -150,31 +163,22 @@ $query->execute();
     <body>
         <?php require '../objects/navigation.php'; ?>
         <h1>P-OOP MC</h1>
-<?php if ($session->isLoggedIn()): ?>
+        <?php if ($session->isLoggedIn()): ?>
             <h1>Sveikinu! <?php print $session->getUser()->getUsername(); ?> esi prisijunges</h1>
             <div class="container">
-    <?php require '../core/views/form.php'; ?>
+                <?php require '../core/views/form.php'; ?>
                 <p><a href="logout.php">Logout CIA</a></p>
             </div>
-<?php else: ?>
+        <?php else: ?>
             <span><a href="login.php">Prisijunkite CIA</a></span>
             <span><a href="register.php">Registruotis CIA</a></span>
         <?php endif; ?>
-<?php foreach ($song->loadAll() as $line): ?>
+        <?php foreach ($song->loadAll() as $line): ?>
             <h2 class="line"><?php print $line->getLine(); ?>
                 <span
                     class="author">Author: <?php print $repo->load($line->getEmail())->getFullName(); ?>
                 </span>
             </h2>
         <?php endforeach; ?>
-<?php foreach ($users as $user): ?>
-            <ul>
-                <li><?php print $user['email'] ?></li>
-                <li><?php print $user['full_name'] ?></li>
-                <li><?php print $user['age'] ?></li>
-                <li><?php print $user['gender'] ?></li>
-                <li><?php print $user['photo'] ?></li>
-            </ul>
-<?php endforeach; ?>
     </body>
 </html>
