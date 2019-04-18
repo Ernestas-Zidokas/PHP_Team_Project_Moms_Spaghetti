@@ -72,7 +72,7 @@ class SQLBuilder extends Abstracts\SQLBuilder {
             $column = self::bind($column);
         }
 
-        return self::columns($column_array);
+        return implode(', ', $column_array);
     }
 
     /**

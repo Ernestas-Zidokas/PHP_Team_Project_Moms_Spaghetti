@@ -104,25 +104,28 @@ $connection = new \Core\Database\Connection([
 $pdo = $connection->getPDO();
 
 $value_array = [
-    'email' => 'taskytojas.zidokas@gmail.com',
+    'email' => '123taskytojas.zidokas@gmail.com',
     'password' => 'passwordtaskom',
     'full_name' => 'Ernestas Zidokas',
     'age' => 26,
-    'gender' =>
-    'm',
-    'photo' =>
-    'uploads/belenkas.jpg'
+    'gender' => 'm',
+    'photo' => 'uploads/belenkas.jpg'
 ];
 
 $sql = strtr("INSERT INTO @db.@table (@columns) VALUES (@values)", [
     '@db' => \Core\Database\SQLBuilder::schema('my_db'),
     '@table' => \Core\Database\SQLBuilder::table('users'),
     '@columns' => \Core\Database\SQLBuilder::columns(array_keys($value_array)),
-    '@values' => \Core\Database\SQLBuilder::values(array_values($value_array)),
+    '@values' => \Core\Database\SQLBuilder::binds(array_keys($value_array)),
         ]);
 
-$pdo->exec($sql);
+$query = $pdo->prepare($sql);
 
+foreach ($value_array as $key => $value) {
+    $query->bindValue(\Core\Database\SQLBuilder::bind($key), $value);
+}
+
+$query->execute();
 ?>
 <html>
     <head>
