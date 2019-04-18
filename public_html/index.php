@@ -95,37 +95,29 @@ if ($session->isLoggedIn()) {
     ]);
 }
 
-$connection = new \Core\Database\Connection([
-    'host' => 'localhost',
-    'user' => 'root',
-    'password' => 'bananas123'
-        ]);
-
-$pdo = $connection->getPDO();
-
-$value_array = [
-    'email' => '123taskytojas.zidokas@gmail.com',
-    'password' => 'passwordtaskom',
-    'full_name' => 'Ernestas Zidokas',
-    'age' => 26,
-    'gender' => 'm',
-    'photo' => 'uploads/belenkas.jpg'
-];
-
-$sql = strtr("INSERT INTO @db.@table (@columns) VALUES (@values)", [
-    '@db' => \Core\Database\SQLBuilder::schema('my_db'),
-    '@table' => \Core\Database\SQLBuilder::table('users'),
-    '@columns' => \Core\Database\SQLBuilder::columns(array_keys($value_array)),
-    '@values' => \Core\Database\SQLBuilder::binds(array_keys($value_array)),
-        ]);
-
-$query = $pdo->prepare($sql);
-
-foreach ($value_array as $key => $value) {
-    $query->bindValue(\Core\Database\SQLBuilder::bind($key), $value);
-}
-
-$query->execute();
+//$query = $pdo->prepare('INSERT INTO `my_db`.`users` '
+//        . '(`email`, `password`, `full_name`, `age`, `gender`, `photo`)'
+//        . 'VALUES(:email, :pass, :full_name, :age, :gender, :photo)');
+//        
+//$query->execute();
+//$users = [];
+//$last_gender = '';
+//
+//while ($row = $query->fetch(PDO::FETCH_LAZY)) {
+//    $gender = $row['gender']; // Requestas i duombaze
+//    if ($gender == $last_gender && $gender == 'f') {
+//        break;
+//    } else {
+//        $last_gender = $gender;
+//        $users[] = [
+//            'full_name' => $row['full_name'],
+//            'age' => $row['age'],
+//            'email' => $row['email'],
+//            'gender' => $row['gender'],
+//            'photo' => $row['photo']
+//        ];
+//    }
+//}
 ?>
 <html>
     <head>
