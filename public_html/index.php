@@ -1,7 +1,4 @@
 <?php
-
-use Core\Database\SQLBuilder;
-
 require_once '../bootloader.php';
 
 $form = [
@@ -126,29 +123,6 @@ $sql = strtr("INSERT INTO @db.@table (@columns) VALUES (@values)", [
 
 $pdo->exec($sql);
 
-//$query = $pdo->prepare('INSERT INTO `my_db`.`users` '
-//        . '(`email`, `password`, `full_name`, `age`, `gender`, `photo`)'
-//        . 'VALUES(:email, :pass, :full_name, :age, :gender, :photo)');
-//        
-//$query->execute();
-//$users = [];
-//$last_gender = '';
-//
-//while ($row = $query->fetch(PDO::FETCH_LAZY)) {
-//    $gender = $row['gender']; // Requestas i duombaze
-//    if ($gender == $last_gender && $gender == 'f') {
-//        break;
-//    } else {
-//        $last_gender = $gender;
-//        $users[] = [
-//            'full_name' => $row['full_name'],
-//            'age' => $row['age'],
-//            'email' => $row['email'],
-//            'gender' => $row['gender'],
-//            'photo' => $row['photo']
-//        ];
-//    }
-//}
 ?>
 <html>
     <head>
