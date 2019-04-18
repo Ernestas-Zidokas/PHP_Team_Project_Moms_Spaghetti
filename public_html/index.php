@@ -106,54 +106,18 @@ $connection = new \Core\Database\Connection([
 
 $pdo = $connection->getPDO();
 
-$sql = strtr("SELECT * FROM @db.@table WHERE (@age = @value1) AND (@gender = @value2)", [
+$sql = strtr("UPDATE @db.@table SET @age = @value1, @gender = @value2", [
     '@db' => \Core\Database\SQLBuilder::schema('my_db'),
     '@table' => \Core\Database\SQLBuilder::table('users'),
     '@age' => \Core\Database\SQLBuilder::column('age'),
     '@gender' => \Core\Database\SQLBuilder::column('gender'),
-    '@value1' => \Core\Database\SQLBuilder::value(25),
-    '@value2' => \Core\Database\SQLBuilder::value('f')
+    '@value1' => \Core\Database\SQLBuilder::value(rand(0, 100)),
+    '@value2' => \Core\Database\SQLBuilder::value('m')
         ]
 );
 
-$query = $pdo->query($sql);
-$data = $query->fetchAll(PDO::FETCH_ASSOC);
-var_dump($data);
+$query = $pdo->exec($sql);
 
-//$value_array = ['ernestas.zidokas@gmail.com', 'password', 'Ernestas Zidokas', 26, 'm', 'uploads/belenkas.jpg'];
-//$column_array = ['email', 'password', 'full_name', 'age', 'gender', 'photo'];
-//
-//$query = $pdo->prepare('INSERT INTO `my_db`.`users` '
-//        . '(`email`, `password`, `full_name`, `age`, `gender`, `photo`)'
-//        . 'VALUES(:email, :pass, :full_name, :age, :gender, :photo)');
-//
-//$sql = strtr("INSERT INTO @db.@table (@columns) VALUES (@values)", [
-//    '@db' => \Core\Database\SQLBuilder::column('my_db'),
-//    '@table' => \Core\Database\SQLBuilder::column('users'),
-//    '@columns' => \Core\Database\SQLBuilder::columns($column_array),
-//    '@values' => \Core\Database\SQLBuilder::values($value_array),
-//        ]);
-//
-//$pdo->exec($sql);
-//$query->execute();
-//$users = [];
-//$last_gender = '';
-//
-//while ($row = $query->fetch(PDO::FETCH_LAZY)) {
-//    $gender = $row['gender']; // Requestas i duombaze
-//    if ($gender == $last_gender && $gender == 'f') {
-//        break;
-//    } else {
-//        $last_gender = $gender;
-//        $users[] = [
-//            'full_name' => $row['full_name'],
-//            'age' => $row['age'],
-//            'email' => $row['email'],
-//            'gender' => $row['gender'],
-//            'photo' => $row['photo']
-//        ];
-//    }
-//}
 ?>
 <html>
     <head>
