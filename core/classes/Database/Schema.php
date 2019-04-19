@@ -14,22 +14,25 @@ class Schema extends \Core\Database\Abstracts\Schema {
 
     public function create() {
         $create = strtr("CREATE DATABASE @schema_name", [
-            '@schema_name' => $this->name
+            '@schema_name' => SQLBuilder::column($this->name)
         ]);
         $this->pdo->exec($create);
 
-        $user = strtr("CREATE USER @user @ @host IDENTIFIED BY @pass", [
-            '@user' => SQLBuilder::value($this->connection->getCredentialUser()),
-            '@host' => SQLBuilder::value($this->connection->getCredentialHost()),
-            '@pass' => SQLBuilder::value($this->connection->getCredentialPass())
-        ]);
-        $this->pdo->exec($user);
+//        $user = strtr("CREATE USER @user@@host IDENTIFIED BY @pass", [
+//            '@user' => SQLBuilder::value($this->connection->getCredentialUser()),
+//            '@host' => SQLBuilder::value($this->connection->getCredentialHost()),
+//            '@pass' => SQLBuilder::value($this->connection->getCredentialPass())
+//        ]);
+//        
+//        $this->pdo->exec($user);
 
-        $grant = strtr("GRAND ALL ON @schema_name.* TO @user @ @host", [
+
+        $grant = strtr("GRANT ALL ON @schema_name.* TO @user@@host", [
             '@user' => SQLBuilder::value($this->connection->getCredentialUser()),
             '@host' => SQLBuilder::value($this->connection->getCredentialHost()),
-            '@schema_name' => $this->name
+            '@schema_name' => SQLBuilder::column($this->name)
         ]);
+        
         $this->pdo->exec($grant);
 
         $flush = 'FLUSH PRIVILEGES';
