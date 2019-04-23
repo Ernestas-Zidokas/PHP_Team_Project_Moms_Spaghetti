@@ -46,14 +46,6 @@ class Model extends \Core\Database\Abstracts\Model {
         }
     }
 
-    /**
-     * Inserts $row (array of values) into the table
-     * if row does not exist already
-     * 
-     * @param $row array Row to insert
-     * @param $unique_columns array of indexes of unique columns 
-     * @throws Exception
-     */
     public function insertIfNotExists($row, $unique_columns) {
         if (!$this->load($unique_columns)) {
             $this->insert($row);
@@ -61,8 +53,58 @@ class Model extends \Core\Database\Abstracts\Model {
         }
     }
 
-    public function update($row = array(), $conditions = array()) {
-        
+    /**
+     * Updates $row columns based on conditions
+     * 
+     * Array index represents column name.
+     * Array value represents that column (updated) value.
+     * 
+     * $row = [
+     *          'full_name' => 'Wicked Mthfucka',
+     *          'photo' => 'https://i.ytimg.com/vi/uVxSZnJv2gs/maxresdefault.jpg,
+     *        ];
+     * 
+     * $conditions = [
+     *          'email' => 'lolz@gmail.com          
+     *          ];
+     * 
+     * Conditions represent WHERE statements, combined with AND
+     * 
+     * @param $row array Row array
+     * @param $conditions array WHERE conditions
+     * @throws Exception
+     */
+    public function update($row = [], $conditions = []) {
+        $row_keys = array_keys($row);
+        $condition_array = [];
+
+        foreach ($conditions as $condition_idx => $condition) {
+            $condition_array[] = strtr('(@index = @condition)', [
+                '@index' => Core\Database\SQLBuilder::column($condition_idx),
+                '@condition' => Core\Database\SQLBuilder::bind($condition_idx)
+            ]);
+            $query = $this->pdo->prepare($condition_array);
+            $query->bindValue(SQLBuilder::bind($condition_idx), $condition);
+        }
+
+        $sql = strtr("UPDATE @table SET @col WHERE @condition", [
+            '@table' => SQLBuilder::table($this->table_name),
+            '@col' => Core\Database\SQLBuilder::columnEqualBinds($row_keys),
+            '@condition' => implode(' AND ', $condition_array),
+        ]);
+
+        $query = $this->pdo->prepare($sql);
+
+        foreach ($row as $key => $value) {
+            $query->bindValue(SQLBuilder::bind($key), $value);
+        }
+
+        try {
+            $query->execute();
+            return true;
+        } catch (PDOException $ex) {
+            throw new Exception('Nepavyko update table');
+        }
     }
 
 }
