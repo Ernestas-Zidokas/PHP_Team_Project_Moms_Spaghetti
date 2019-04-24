@@ -35,7 +35,7 @@ class Users extends \Core\Database\Model {
             ],
             [
                 'name' => 'photo',
-                'type' => self::TEXT_SHORT,
+                'type' => self::TEXT_MED,
                 'flags' => self::FLAG_NOT_NULL
             ]
         ]);
