@@ -48,9 +48,9 @@ class Model extends \Core\Database\Abstracts\Model {
 
     public function insertIfNotExists($row, $unique_columns) {
         if (!$this->load($unique_columns)) {
-            $this->insert($row);
-            return true;
+            return $this->insert($row);
         }
+        
         throw new Exception('Row Exists...');
     }
 
