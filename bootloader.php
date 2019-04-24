@@ -3,7 +3,7 @@
 declare (strict_types = 1);
 
 define('ROOT_DIR', __DIR__);
-define('DB_FILE', ROOT_DIR . '/app/files/db.txt');
+define('MY_DB', 'my_db');
 define('TABLE_USERS', 'users');
 define('TABLE_LINES', 'lines');
 define('DEBUG', true);

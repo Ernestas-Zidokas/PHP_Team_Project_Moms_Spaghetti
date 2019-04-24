@@ -58,7 +58,8 @@ abstract class Model {
     }
 
     public function init() {
-        $results = $this->pdo->query('SHOW TABLES LIKE ' . SQLBuilder::table($this->table_name));
+        $sql = 'SHOW TABLES LIKE ' . \Core\Database\SQLBuilder::value($this->table_name);
+        $results = $this->pdo->query($sql);
         if ($results->rowCount() == 0) {
             $this->create();
         }
@@ -159,8 +160,6 @@ abstract class Model {
        foreach ($conditions as $column => $value) {
             $query->bindValue(SQLBuilder::bind($column), $value);
         }
-
-        Debug::add($sql, Debug::TYPE_SQL, Debug::LEVEL_INFO);
         $query->execute();
 
         return $query->fetchAll(\PDO::FETCH_ASSOC);

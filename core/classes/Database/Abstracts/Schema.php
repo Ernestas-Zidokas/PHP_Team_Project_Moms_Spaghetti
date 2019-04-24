@@ -2,7 +2,7 @@
 
 namespace Core\Database\Abstracts;
 
-use SQLBuilder;
+use \Core\Database\SQLBuilder;
 
 abstract class Schema {
 
@@ -30,7 +30,7 @@ abstract class Schema {
         try {
             $sql_check = strtr('SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA '
                     . 'WHERE SCHEMA_NAME = @schema', [
-                '@schema' => SQLBuilder::schema($this->name)
+                '@schema' => SQLBuilder::value($this->name)
             ]);
             $query = $this->pdo->query($sql_check);
 
@@ -41,7 +41,7 @@ abstract class Schema {
 
             // USE `schema`. This SQL lets all subsequent requests specify table only
             $sql_use = strtr('USE @schema', [
-                '@schema' => SQLBuilder::schema($this - name)
+                '@schema' => SQLBuilder::schema($this->name)
             ]);
             $this->pdo->exec($sql_use);
         } catch (PDOException $e) {
