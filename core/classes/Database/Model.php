@@ -51,6 +51,7 @@ class Model extends \Core\Database\Abstracts\Model {
             $this->insert($row);
             return true;
         }
+        throw new Exception('Row Exists...');
     }
 
     public function update($row = [], $conditions = []) {
@@ -61,7 +62,7 @@ class Model extends \Core\Database\Abstracts\Model {
             $sql = strtr("UPDATE @table SET @col WHERE @condition", [
                 '@table' => SQLBuilder::table($this->table_name),
                 '@col' => Core\Database\SQLBuilder::columnsEqualBinds($row_keys),
-                '@condition' => Core\Database\SQLBuilder::columnsEqualBinds($condition_keys, ' AND '),
+                '@condition' => Core\Database\SQLBuilder::columnsEqualBinds($condition_keys, ' AND ', 'cond'),
             ]);
         } else {
             $sql = strtr("UPDATE @table SET @col", [
@@ -77,13 +78,13 @@ class Model extends \Core\Database\Abstracts\Model {
         }
 
         foreach ($conditions as $condition_idx => $condition) {
-            $query->bindValue(SQLBuilder::bind($condition_idx), $condition);
+            $query->bindValue(SQLBuilder::bind($condition_idx, 'cond'), $condition);
         }
 
         try {
             return $query->execute();
         } catch (PDOException $ex) {
-            throw new Exception('Nepavyko update table');
+            throw new Exception('Nepavyko update table' . $ex->getMessage());
         }
     }
 
