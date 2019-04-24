@@ -16,27 +16,26 @@ class Users extends \Core\Database\Model {
             [
                 'name' => 'password',
                 'type' => self::TEXT_SHORT,
-                'flags' => self::FLAG_NOT_NULL
+                'flags' => [self::FLAG_NOT_NULL]
             ],
             [
                 'name' => 'full_name',
                 'type' => self::TEXT_SHORT,
-                'flags' => self::FLAG_NOT_NULL
+                'flags' => [self::FLAG_NOT_NULL]
             ],
             [
                 'name' => 'age',
                 'type' => self::NUMBER_MED,
-                'flags' => self::FLAG_NOT_NULL
+                'flags' => [self::FLAG_NOT_NULL]
             ],
             [
                 'name' => 'gender',
                 'type' => self::CHAR,
-                'flags' => self::FLAG_NOT_NULL
+                'flags' => [self::FLAG_NOT_NULL]
             ],
             [
                 'name' => 'photo',
-                'type' => self::TEXT_MED,
-                'flags' => self::FLAG_NOT_NULL
+                'type' => self::TEXT_MED
             ]
         ]);
     }
