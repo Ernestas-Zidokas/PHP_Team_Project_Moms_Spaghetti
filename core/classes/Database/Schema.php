@@ -18,15 +18,6 @@ class Schema extends \Core\Database\Abstracts\Schema {
         ]);
         $this->pdo->exec($create);
 
-//        $user = strtr("CREATE USER @user@@host IDENTIFIED BY @pass", [
-//            '@user' => SQLBuilder::value($this->connection->getCredentialUser()),
-//            '@host' => SQLBuilder::value($this->connection->getCredentialHost()),
-//            '@pass' => SQLBuilder::value($this->connection->getCredentialPass())
-//        ]);
-//        
-//        $this->pdo->exec($user);
-
-
         $grant = strtr("GRANT ALL ON @schema_name.* TO @user@@host", [
             '@user' => SQLBuilder::value($this->connection->getCredentialUser()),
             '@host' => SQLBuilder::value($this->connection->getCredentialHost()),

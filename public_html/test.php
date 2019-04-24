@@ -35,8 +35,11 @@ $pdo = $connection->getPDO();
 //
 //$query->execute();
 
-$schema = new Core\Database\Schema($connection, 'new_db');
-$schema->create();
+//$schema = new Core\Database\Schema($connection, 'new_db');
+//$schema->create();
+
+$model_user = new App\Model\Users($connection);
+$model_user->create();
 ?>
 <html>
     <head>

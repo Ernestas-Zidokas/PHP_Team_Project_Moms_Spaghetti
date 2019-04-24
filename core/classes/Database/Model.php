@@ -1,5 +1,7 @@
 <?php
 
+namespace Core\Database;
+
 class Model extends \Core\Database\Abstracts\Model {
 
     public function create() {
@@ -47,11 +49,17 @@ class Model extends \Core\Database\Abstracts\Model {
     }
 
     public function insertIfNotExists($row, $unique_columns) {
-        if (!$this->load($unique_columns)) {
+        $load_conditions = [];
+        
+        foreach($unique_columns as $column){
+            $load_conditions[$column] = $row[$column];
+        }
+        
+        if (!$this->load($load_conditions)) {
             return $this->insert($row);
         }
         
-        throw new Exception('Row Exists...');
+        return false;
     }
 
     public function update($row = [], $conditions = []) {
