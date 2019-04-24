@@ -55,21 +55,23 @@ class SQLBuilder extends Abstracts\SQLBuilder {
      * it replaces it to underscore
      *
      * @param string $column column 1
+     * @param string $bind_prefix (Optional) Prefix to bind
      * @return string :column_1
      */
-    public static function bind($column): string {
-        return ':' . str_replace(' ', '_', $column);
+    public static function bind($column, $bind_prefix = ''): string {
+        return ':' . $bind_prefix . str_replace(' ', '_', $column);
     }
 
     /**
      * Returns an imploded array of column bind placeholders
      *
      * @param array $column_array ['column 1', 'column 2', ...]
+     * @param string $bind_prefix (Optional) Prefix to bind
      * @return string :column_1, :column_2, :column_3
      */
-    public static function binds($column_array): string {
+    public static function binds($column_array, $bind_prefix = ''): string {
         foreach ($column_array as &$column) {
-            $column = self::bind($column);
+            $column = self::bind($column, $bind_prefix);
         }
 
         return implode(', ', $column_array);
@@ -81,8 +83,8 @@ class SQLBuilder extends Abstracts\SQLBuilder {
      * @param string $column column 1
      * @return string `column 1`=:column_1
      */
-    public static function columnEqualBind($column): string {
-        return self::column($column) . ' = ' . self::bind($column);
+    public static function columnEqualBind($column, $bind_prefix = ''): string {
+        return self::column($column) . ' = ' . self::bind($column, $bind_prefix);
     }
 
     /**
@@ -93,12 +95,12 @@ class SQLBuilder extends Abstracts\SQLBuilder {
      * @param string $delimiter Can be changed to 'AND', 'OR', etc...
      * @return string `column 1`=:column_1, `column 2`=:column_2,
      */
-    public static function columnsEqualBinds($column_array, $delimiter = ', '): string {
+    public static function columnsEqualBinds($column_array, $delimiter = ', ', $bind_prefix = ''): string {
         foreach ($column_array as &$column) {
-            $column = self::columnEqualBind($column);
+            $column = self::columnEqualBind($column, $bind_prefix);
         }
 
-        return implode(', ', $column_array);
+        return implode($delimiter, $column_array);
     }
 
     /**
